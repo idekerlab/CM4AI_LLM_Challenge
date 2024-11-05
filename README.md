@@ -21,20 +21,21 @@ Located in ./data/toy_example_w_contaminated.csv
 | 50perc_contaminated_Genes | Contaminated gene set with 50% real and 50% random       |
 | 100perc_contaminated_Genes | Complete random gene set                                |
 
-## Task 1 run in bash script 
+## Task 1 run the pipeline in bash script 
 ```
 bash ./run_LLM_annotation_pipeline.sh
 ```
-
-## Task 2 compare confidence scores 
-Check out notebook for visualizing [Task2](./Task2.Compare_confidence_scores.ipynb) 
-
-## Task 3 compare semantic similarity with GO names 
+## Task 2 compare semantic similarity with GO names 
 
 ```
 bash ./excute_semantic_similarity_calculation.sh
 ```
 [Visualize the semantic similarity result](./Task3.Compare_semantic_similarity.ipynb)
+
+## Task 3 compare confidence scores 
+Check out notebook for visualizing [Task2](./Task2.Compare_confidence_scores.ipynb) 
+
+
 
 ## Optional Task 4 run on gene sets of interest from VNN interpretation
 
