@@ -12,4 +12,4 @@ model_options=('mixtral_instruct' 'llama2_70b')
 for model in "${model_options[@]}"; do 
     output_file="data/${model}_processed_toy_example"
     config_file="jsonFiles/toyexample_${model}.yaml"
-    python src/LLM_annotation_pipeline.py --config $config_file --input_file $input_file --initialize --set_index $set_index --gene_column $gene_column --gene_sep $gene_sep --run_contaminated --start $start --end $end --model $model --output_file $output_file
+    python query_llm_for_analysis.py --config $config_file --input_file $input_file --initialize --set_index $set_index --gene_column $gene_column --gene_sep $gene_sep --run_contaminated --start $start --end $end --model $model --output_file $output_file
