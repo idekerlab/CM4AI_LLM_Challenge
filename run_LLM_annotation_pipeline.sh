@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-input_file='data/GO_term_analysis/toy_example.csv'
+input_file='data/toy_example.csv'
 set_index='GO'
 gene_column='Genes'
 gene_sep=' '
