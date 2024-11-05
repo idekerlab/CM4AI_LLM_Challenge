@@ -23,6 +23,7 @@ Located in ./data/toy_example_w_contaminated.csv
 
 ## Task 1 run the pipeline in bash script 
 ```
+mkdir -p logs
 bash ./run_LLM_annotation_pipeline.sh
 ```
 ## Task 2 compare semantic similarity with GO names 
