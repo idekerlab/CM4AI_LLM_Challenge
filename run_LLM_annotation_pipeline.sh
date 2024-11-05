@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-input_file='data/toy_example.csv'
+input_file='data/toy_example_w_contaminated.csv'
 set_index='GO'
 gene_column='Genes'
 gene_sep=' '
