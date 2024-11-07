@@ -195,9 +195,9 @@ if __name__ == "__main__":
             
             if args.initialize:
                 # initialize the input file with llm names, analysis and score to None
-                df[f'{column_prefix} Name'] = None
-                df[f'{column_prefix} Analysis'] = None
-                df[f'{column_prefix} Score'] = -np.inf
+                df.loc[:, f'{column_prefix} Name'] = None
+                df.loc[:, f'{column_prefix} Analysis'] = None
+                df.loc[:, f'{column_prefix} Score'] = -np.inf
             print(df[f'{column_prefix} Analysis'].isna().sum())
             main(df)
 
