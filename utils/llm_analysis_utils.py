@@ -12,17 +12,15 @@ def process_analysis(analysis):
     Returns:
         str: Processed LLM analysis.
     """
-
-    llm_process = analysis.split("\n")[0].replace("Process: ", "")
-        
-    llm_score = llm_process.split(" ")[-1].strip("()")
-    
-    llm_name = llm_process.rsplit(" ", 1)[0]
-    
-    try:
-        llm_analysis = analysis.split('\n', 2)[2]
-    except IndexError:
-        llm_analysis = 'No description for the name'
+    llm_analysis = ''
+    for line in analysis.split("\n"):
+        if line.startswith('Process: '):
+            llm_process = line.replace('Process: ', '')
+            split_proc = llm_process.split(' ')
+            llm_score = split_proc[-1].strip("()")
+            llm_name = ' '.join(split_proc[0:-1])
+        else:
+            llm_analysis += line + '\n'
     
     return llm_name, llm_score, llm_analysis
 
