@@ -4,6 +4,9 @@ import os
 import time
 
 URL = os.environ.get("LOCAL_MODEL_HOST")
+if URL is None:
+    URL = 'http://localhost:11434/api/chat'
+    print('LOCAL_MODEL_HOST environment variable not set. Using ' + str(URL))
 
 def load_log(LOG_FILE):
     if os.path.exists(LOG_FILE):
