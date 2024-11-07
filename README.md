@@ -33,7 +33,7 @@ bash ./run_LLM_annotation_pipeline.sh
 ## Task 2 compare semantic similarity with GO names 
 
 ```
-bash ./excute_semantic_similarity_calculation.sh
+bash ./execute_semantic_similarity_calculation.sh
 ```
 [Visualize the semantic similarity result](./Task3.Compare_semantic_similarity.ipynb)
 
