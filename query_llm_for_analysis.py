@@ -152,7 +152,7 @@ def main(df):
     bins = [-np.inf, 0, 0.81, 0.86, np.inf] # 0 is no score (name not assigned), between 0 to 0.8 is low confidence, between 0.82 to 0.86 is medium confidence, above 0.87 is high confidence
     labels = ['Name not assigned', 'Low Confidence', 'Medium Confidence', 'High Confidence']  # Define the corresponding labels
     
-    df[f'{column_prefix} Score bins'] = pd.cut(df[f'{column_prefix} Score'], bins=bins, labels=labels)
+    df.loc[:,f'{column_prefix} Score bins'] = pd.cut(df[f'{column_prefix} Score'], bins=bins, labels=labels)
     save_progress(df, analysis_dict, out_file)
 
 
@@ -174,9 +174,9 @@ if __name__ == "__main__":
     
     if args.initialize:
         # initialize the input file with llm names, analysis and score to None
-        df[f'{column_prefix} Name'] = None
-        df[f'{column_prefix} Analysis'] = None
-        df[f'{column_prefix} Score'] = -np.inf
+        df.loc[:,f'{column_prefix} Name'] = None
+        df.loc[:,f'{column_prefix} Analysis'] = None
+        df.loc[:,f'{column_prefix} Score'] = -np.inf
     print(df[f'{column_prefix} Analysis'].isna().sum())
     main(df)  ## run with the real set 
     
