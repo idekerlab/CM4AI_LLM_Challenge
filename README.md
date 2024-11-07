@@ -24,6 +24,10 @@ Located in ./data/toy_example_w_contaminated.csv
 ## Task 1 run the pipeline in bash script 
 ```
 mkdir -p logs
+
+# adjust URL to location below to where ollama service is hosted
+export LOCAL_MODEL_HOST=http://localhost:11434/api/chat
+
 bash ./run_LLM_annotation_pipeline.sh
 ```
 ## Task 2 compare semantic similarity with GO names 
