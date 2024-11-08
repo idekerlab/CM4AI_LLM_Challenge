@@ -47,7 +47,7 @@ for file in result_files:
     long_scores['Model'] = model_name
     combine_df = pd.concat([combine_df, long_scores])
 
-combine_df.head()
+print(combine_df.head())
 
 # plot the confidence score bins
 # Defining the custom order for Score Types and Models
