@@ -35,12 +35,18 @@ bash ./run_LLM_annotation_pipeline.sh
 ```
 bash ./execute_semantic_similarity_calculation.sh
 ```
-[Visualize the semantic similarity result](./Task3.Compare_semantic_similarity.ipynb)
+
+To visualize the result run:
+
+```commandline
+python ./compare_semantic_similarity.py
+```
 
 ## Task 3 compare confidence scores 
-Check out notebook for visualizing [Task2](./Task2.Compare_confidence_scores.ipynb) 
 
-
+```commandline
+python ./compare_confidence_scores.py
+```
 
 ## Optional Task 4 run on gene sets of interest from VNN interpretation
 
