@@ -7,10 +7,11 @@ import re
 
 
 def melt_score_df(score_df, id_vars=['GO', 'Gene_Count']):
-    columns_score = [col for col in score_df.columns if col.lower().endswith('Score Bin')]
+    # print('all the columns: ' + str(score_df.columns))
+    columns_score = [col for col in score_df.columns if col.lower().endswith('score bins')]
     filtered_score_df = score_df[id_vars + columns_score]
     long_scores = filtered_score_df.melt(id_vars=id_vars, var_name='Score Type', value_name='Score Bin')
-
+    # print('long scores in func: ' + str(long_scores))
     # Map the original score type names to the desired ones
     def map_score_type(score_type):
         if 'default' in score_type:
@@ -30,22 +31,22 @@ def melt_score_df(score_df, id_vars=['GO', 'Gene_Count']):
 
 # combine the results
 result_files = glob('./data/*_processed_toy_example.tsv')
-print(len(result_files))
 combine_df = pd.DataFrame()
 model_order = []
 for file in result_files:
     df = pd.read_csv(file, sep='\t')
     long_scores = melt_score_df(df)
-
     model_name = re.sub('^.*\/', '', file).split('_processed')[0]
     model_order.append(model_name)
-    print(model_name)
+
 
     # map the model name to my own choice of names
     long_scores['Model'] = model_name
     combine_df = pd.concat([combine_df, long_scores])
 
-print(combine_df.head())
+
+# print(combine_df.head())
+
 
 # plot the confidence score bins
 # Defining the custom order for Score Types and Models
@@ -62,10 +63,11 @@ combine_df['Score Bin'] = pd.Categorical(combine_df['Score Bin'], categories=sco
 stacked_bins_data = combine_df.groupby(['Model', 'Score Type', 'Score Bin']).size().unstack().fillna(0)
 
 # Modify the layout to include an additional subplot
-fig, axes = plt.subplots(1, len(model_order) + 1, figsize=(7, 3), sharey=True)
+fig, axes = plt.subplots(1, len(model_order), figsize=(7, 3), sharey=True)
 
 # Plotting for each model (existing code)
 for i, model in enumerate(model_order):
+    # print('i=' + str(i) + 'model=' + str(model))
     model_data = stacked_bins_data.loc[model]
     model_data.plot(kind='bar', stacked=True, ax=axes[i], width=0.8, legend=False, color=color_palette)
     axes[i].set_xlabel(model)
@@ -89,4 +91,7 @@ handles, labels = axes[0].get_legend_handles_labels()
 fig.legend(handles, labels, title='Score Bin', loc='upper left', bbox_to_anchor=(1, 1), fontsize=6)
 plt.tight_layout(h_pad=0.01)
 # Saving the figure
-plt.savefig('./figures/confidence_score_compare.png', bbox_inches='tight')
+
+outputfile = './figures/confidence_score_compare.png'
+plt.savefig(outputfile, bbox_inches='tight')
+print('Figure saved to: ' + str(outputfile))
