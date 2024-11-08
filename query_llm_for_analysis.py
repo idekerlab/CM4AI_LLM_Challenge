@@ -164,7 +164,7 @@ if __name__ == "__main__":
     print(raw_df.columns)
 
     # Only process the specified range of genes
-    df = raw_df.iloc[ind_start:ind_end]
+    df = raw_df.iloc[ind_start:ind_end].copy(deep=True)
     
     if '-' in model:
         name_fix = '_'.join(model.split('-')[:2])
