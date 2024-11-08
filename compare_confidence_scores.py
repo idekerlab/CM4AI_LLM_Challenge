@@ -7,9 +7,9 @@ import re
 
 
 def melt_score_df(score_df, id_vars=['GO', 'Gene_Count']):
-    columns_score = [col for col in score_df.columns if col.endswith('Score')]
+    columns_score = [col for col in score_df.columns if col.lower().endswith('Score Bin')]
     filtered_score_df = score_df[id_vars + columns_score]
-    long_scores = filtered_score_df.melt(id_vars=id_vars, var_name='Score Type', value_name='Score')
+    long_scores = filtered_score_df.melt(id_vars=id_vars, var_name='Score Type', value_name='Score Bin')
 
     # Map the original score type names to the desired ones
     def map_score_type(score_type):
@@ -25,10 +25,8 @@ def melt_score_df(score_df, id_vars=['GO', 'Gene_Count']):
     # Apply the mapping
     long_scores['Score Type'] = long_scores['Score Type'].apply(map_score_type)
 
-    # Remove unwanted symbols and return float
-    long_scores.Score = long_scores.Score.apply(lambda x: float(re.sub("[^0-9.-]", "", x)) if isinstance(x, str) else x)
-
     return long_scores
+
 
 # combine the results
 result_files = glob('./data/*_processed_toy_example.tsv')
