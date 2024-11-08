@@ -8,7 +8,7 @@ input_sep=','
 start=0
 end=11   
 # Define model options
-model_options=('mixtral_instruct' 'llama2_70b' 'llama31_70b')
+model_options=('mixtral_instruct' 'llama2_70b' 'llama31_70b' 'mixtral_8x22b')
 for model in "${model_options[@]}"; do 
     output_file="data/${model}_processed_toy_example"
     config_file="jsonFiles/toyexample_${model}.json"
