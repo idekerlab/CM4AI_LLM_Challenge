@@ -87,7 +87,7 @@ for index, ((model1, model2), p_value) in enumerate(p_values.items()):
 
 ax.set_ylabel('Semantic similarity \n between LLM name and GO term name')
 ax.set_xlabel('')
-ax.set_xticklabels(order, rotation=0, ha='center')
+ax.set_xticklabels(order, rotation=45, ha='center')
 sns.despine()
 outputfile = 'figures/compare_raw_semantic_similarity_swamp_only.png'
 plt.savefig(outputfile, bbox_inches='tight')
