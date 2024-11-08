@@ -37,7 +37,7 @@ for file in files:
 
 print(combined_df.head())
 
-fig, ax = plt.subplots(figsize=(2.5,2.5))
+fig, ax = plt.subplots(figsize=(5.0, 5.0))
 
 # Perform Mann-Whitney U tests
 p_values = {}
@@ -51,11 +51,12 @@ for i in range(len(order)):
         p_values[(model1, model2)] = p
 
 # Add swarm plot
-sns.swarmplot(x='model', y='LLM_name_GO_term_sim', data=combined_df, ax=ax, palette=['#E07A5F', '#4579BD'], size=1.75, alpha=1)
+sns.swarmplot(x='model', y='LLM_name_GO_term_sim', data=combined_df, ax=ax,
+              palette=sns.color_palette()[:len(order)], hue='model', size=1.75, alpha=1)
 # add median line
 medians = combined_df.groupby(['model'])['LLM_name_GO_term_sim'].median()
 for i in range(len(order)):
-    print('model: ', order[i], 'median: ', medians[order[i]])
+    # print('model: ', order[i], 'median: ', medians[order[i]])
     ax.plot([i-0.25, i+0.25], [medians[order[i]], medians[order[i]]], lw=1, color='black')
 
 
@@ -80,15 +81,16 @@ for index, ((model1, model2), p_value) in enumerate(p_values.items()):
         # Add text for significance level
         significance_text = "****" if p_value < 0.0001 else "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*"
         ax.text((bar_start + bar_end) / 2, y_coord - 0.01, significance_text, ha='center')
-        print(f'{model1} vs {model2}: p = {p_value}')
+        # print(f'{model1} vs {model2}: p = {p_value}')
         i += 1
 
 
 ax.set_ylabel('Semantic similarity \n between LLM name and GO term name')
 ax.set_xlabel('')
-ax.set_xticklabels(['Mixtral\nInstruct', 'Llama2\n70b'],rotation=0, ha='center')
+ax.set_xticklabels(order, rotation=0, ha='center')
 sns.despine()
-plt.savefig('figures/compare_raw_semantic_similarity_swamp_only.png', bbox_inches='tight')
-
+outputfile = 'figures/compare_raw_semantic_similarity_swamp_only.png'
+plt.savefig(outputfile, bbox_inches='tight')
+print('Figure saved to: ' + str(outputfile))
 
 
