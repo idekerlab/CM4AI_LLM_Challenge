@@ -12,10 +12,12 @@ def process_analysis(analysis):
     Returns:
         str: Processed LLM analysis.
     """
+    process_keyword = 'process: '
     llm_analysis = ''
     for line in analysis.split("\n"):
-        if line.startswith('Process: '):
-            llm_process = line.replace('Process: ', '')
+        stripped_line = line.strip()
+        if stripped_line.lower().startswith(process_keyword):
+            llm_process = stripped_line[len(process_keyword):]
             split_proc = llm_process.split(' ')
             llm_score = split_proc[-1].strip("()")
             llm_name = ' '.join(split_proc[0:-1])
