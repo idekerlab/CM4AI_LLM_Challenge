@@ -113,11 +113,11 @@ def main(df):
 
             
             if analysis:
-                print(analysis)
+                logger.info(analysis)
                 llm_name, llm_score, llm_analysis = process_analysis(analysis)
                 # clean up the score and return float
-                print('llm_name: ' + llm_name)
-                print('llm_score: ' + llm_score)
+                logger.info('llm_name: ' + llm_name)
+                logger.info('llm_score: ' + llm_score)
                 try:
                     llm_score_value =  float(re.sub("[^0-9.-]", "", llm_score))
                 except ValueError:
