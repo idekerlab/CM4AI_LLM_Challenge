@@ -13,7 +13,7 @@ def process_analysis(analysis):
         str: Processed LLM analysis.
     """
     llm_analysis = ''
-    for line in analysis.split("\n"):
+    for line in analysis.strip().split("\n"):
         if line.startswith('Process: '):
             llm_process = line.replace('Process: ', '')
             split_proc = llm_process.split(' ')
