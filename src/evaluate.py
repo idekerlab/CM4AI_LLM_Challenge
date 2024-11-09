@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from transformers import AutoModel, AutoTokenizer
+import wandb
 
 from utils.llm_analysis_utils import process_analysis, save_progress
 from utils.prompt_factory import make_user_prompt_with_score
@@ -171,6 +172,13 @@ if __name__ == "__main__":
         "seed": 42,
         "run_contaminated": True
     }
+
+    wandb.init(
+        # set the wandb project where this run will be logged
+        project="llm-challenge-wls",
+        # track hyperparameters and run metadata
+        config=config
+    )
 
     # TODO: simplify this logic
     model_name_fix = config["model"]
