@@ -151,6 +151,8 @@ def calc_sim(inputFile, nameCol_LLM, nameCol_GO):
     save_emb_dict(go_emb_dict, inputFile.replace(".tsv", "_go_emb_dict.pkl"))
     names_DF.to_csv(inputFile.replace(".tsv", "_simVals_DF.tsv"), sep = "\t", index = False)
 
+    return names_DF
+
 
 ##################
 ##################
@@ -173,9 +175,10 @@ if __name__ == "__main__":
         "run_contaminated": True
     }
 
-    wandb.init(
+    run = wandb.init(
         # set the wandb project where this run will be logged
         project="llm-challenge-wls",
+        entity="b2ai-cm4ai",
         # track hyperparameters and run metadata
         config=config
     )
@@ -224,4 +227,7 @@ if __name__ == "__main__":
             print(df[f'{column_prefix} Analysis'].isna().sum())
             llm_annotate(df, base_filename, config)
 
-    calc_sim(os.path.join(output_file), f"{model_name_fix}_default Name", "Term_Description")
+    sim_results = calc_sim(os.path.join(output_file), f"{model_name_fix}_default Name", "Term_Description")
+    table = wandb.Table(dataframe=sim_results)
+    run.log({"sem_sim_results": table})
+    run.finish()

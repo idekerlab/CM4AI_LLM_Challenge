@@ -167,3 +167,5 @@ results/*
 
 logs/
 logs/*
+wandb/
+wandb/*
