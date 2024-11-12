@@ -40,7 +40,6 @@ Put the name at the top of the analysis as 'Process: <name>'
         prompt_text += format_placeholder
     elif customized_prompt:
         prompt_text = customized_prompt
-        prompt_text += format_placeholder
     else:
         prompt_text = task_instructions
         prompt_text += format_placeholder
@@ -135,7 +134,6 @@ and homeostasis via a number of different hormones and receptors that can elicit
         prompt_text += format_placeholder
     elif customized_prompt:
         prompt_text = customized_prompt
-        prompt_text += format_placeholder
     else:
         prompt_text = task_instructions
         prompt_text += score_instructions

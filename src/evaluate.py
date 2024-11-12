@@ -40,6 +40,19 @@ def llm_annotate(df, base_filename, config):
     OUT_FILE = f"results/{base_filename}_processed"
     logger = get_logger(f'logs/{base_filename}.log')
 
+    if "customized_prompt" in config and config["customized_prompt"] is not None:
+        # make sure the file exist 
+        if os.path.isfile(config['customized_prompt']):
+            with open(config['customized_prompt'], 'r') as f: # replace with your actual customized prompt file
+                customized_prompt = f.read()
+                assert len(customized_prompt) > 1, "Customized prompt is empty"
+                wandb.save(config['customized_prompt'])
+        else:
+            print("Customized prompt file does not exist")
+            customized_prompt = None
+    else:
+        customized_prompt = None
+
     i = 0 #used for track progress and saving the file
     for idx, row in tqdm(df.iterrows(), total=df.shape[0]):
         #only process None rows 
@@ -59,7 +72,7 @@ def llm_annotate(df, base_filename, config):
             continue
 
         try:
-            prompt = make_user_prompt_with_score(genes)
+            prompt = make_user_prompt_with_score(genes, customized_prompt=customized_prompt)
             # print(prompt)
             print("Querying LLM: ", config["model"])
             analysis, error_message= server_model_chat(
@@ -172,62 +185,62 @@ if __name__ == "__main__":
         "dataset_name": "toy_example_w_cont",
         "input_file": "data/toy_example_w_contaminated.csv",
         "seed": 42,
-        "run_contaminated": True
+        "run_contaminated": True,
+        "customized_prompt": "data/custom_prompt_2.txt"
     }
 
-    run = wandb.init(
-        # set the wandb project where this run will be logged
-        project="llm-challenge-wls",
-        entity="b2ai-cm4ai",
-        # track hyperparameters and run metadata
-        config=config
-    )
+    with wandb.init(
+            # set the wandb project where this run will be logged
+            project="llm-challenge-wls",
+            entity="b2ai-cm4ai",
+            # track hyperparameters and run metadata
+            config=config
+        ) as run:
 
-    # TODO: simplify this logic
-    model_name_fix = config["model"]
-    if '-' in config["model"]:
-        model_name_fix = '_'.join(config["model"].split('-')[:2])
-    else:
-        model_name_fix = config["model"].replace(':', '_')
-    column_prefix = model_name_fix + '_default' #start from default gene set
+        # TODO: simplify this logic
+        model_name_fix = config["model"]
+        if '-' in config["model"]:
+            model_name_fix = '_'.join(config["model"].split('-')[:2])
+        else:
+            model_name_fix = config["model"].replace(':', '_')
+        column_prefix = model_name_fix + '_default' #start from default gene set
 
-    base_filename = f"{config['dataset_name']}_{model_name_fix}"
-    
-    if config["input_sep"] == '\\t':
-        config["input_sep"] = '\t'
+        base_filename = f"{config['dataset_name']}_{model_name_fix}"
+        
+        if config["input_sep"] == '\\t':
+            config["input_sep"] = '\t'
 
-    raw_df = pd.read_csv(config["input_file"], sep=config["input_sep"], index_col=config["set_index"])
-    
-    # Only process the specified range of genes
-    df = raw_df.iloc[config["ind_start"]:config["ind_end"]].copy(deep=True)
+        raw_df = pd.read_csv(config["input_file"], sep=config["input_sep"], index_col=config["set_index"])
+        
+        # Only process the specified range of genes
+        df = raw_df.iloc[config["ind_start"]:config["ind_end"]].copy(deep=True)
 
-    df.loc[:,f'{column_prefix} Name'] = None
-    df.loc[:,f'{column_prefix} Analysis'] = None
-    df.loc[:,f'{column_prefix} Score'] = -np.inf
+        df.loc[:,f'{column_prefix} Name'] = None
+        df.loc[:,f'{column_prefix} Analysis'] = None
+        df.loc[:,f'{column_prefix} Score'] = -np.inf
 
-    print(df[f'{column_prefix} Analysis'].isna().sum())
-    output_file = llm_annotate(df, base_filename, config)  ## run with the real set 
+        print(df[f'{column_prefix} Analysis'].isna().sum())
+        output_file = llm_annotate(df, base_filename, config)  ## run with the real set 
 
-    # if run_contaminated is true, then run the pipeline for contaminated gene sets
-    if config["run_contaminated"]:
-        ## run the pipeline for contaiminated gene sets 
-        contaminated_columns = [col for col in df.columns if col.endswith('contaminated_Genes')]
-        # print(contaminated_columns)
-        for col in contaminated_columns:
-            config["gene_column"] = col ## Note need to change the gene_column to the contaminated column
-            contam_prefix = '_'.join(col.split('_')[0:2])
-            
-            column_prefix = model_name_fix + '_' + contam_prefix
-            print(column_prefix)
-            
-            df.loc[:, f'{column_prefix} Name'] = None
-            df.loc[:, f'{column_prefix} Analysis'] = None
-            df.loc[:, f'{column_prefix} Score'] = -np.inf
-            
-            print(df[f'{column_prefix} Analysis'].isna().sum())
-            llm_annotate(df, base_filename, config)
+        # if run_contaminated is true, then run the pipeline for contaminated gene sets
+        if config["run_contaminated"]:
+            ## run the pipeline for contaiminated gene sets 
+            contaminated_columns = [col for col in df.columns if col.endswith('contaminated_Genes')]
+            # print(contaminated_columns)
+            for col in contaminated_columns:
+                config["gene_column"] = col ## Note need to change the gene_column to the contaminated column
+                contam_prefix = '_'.join(col.split('_')[0:2])
+                
+                column_prefix = model_name_fix + '_' + contam_prefix
+                print(column_prefix)
+                
+                df.loc[:, f'{column_prefix} Name'] = None
+                df.loc[:, f'{column_prefix} Analysis'] = None
+                df.loc[:, f'{column_prefix} Score'] = -np.inf
+                
+                print(df[f'{column_prefix} Analysis'].isna().sum())
+                llm_annotate(df, base_filename, config)
 
-    sim_results = calc_sim(os.path.join(output_file), f"{model_name_fix}_default Name", "Term_Description")
-    table = wandb.Table(dataframe=sim_results)
-    run.log({"sem_sim_results": table})
-    run.finish()
+        sim_results = calc_sim(os.path.join(output_file), f"{model_name_fix}_default Name", "Term_Description")
+        table = wandb.Table(dataframe=sim_results)
+        run.log({"sem_sim_results": table})
