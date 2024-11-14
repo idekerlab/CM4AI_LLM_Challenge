@@ -1,6 +1,6 @@
 program: src/evaluate_sweep_driver.py
-entity: quantum_yalemed
-project: llm-challenge-wls
+entity: b2ai-cm4ai
+project: llm-challenge-team-competition
 method: grid
 metric:
   goal: maximize
