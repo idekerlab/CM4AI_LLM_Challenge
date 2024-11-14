@@ -1,0 +1,62 @@
+program: src/evaluate_sweep_driver.py
+entity: quantum_yalemed
+project: llm-challenge-wls
+method: grid
+metric:
+  goal: maximize
+  name: test.f1_score
+name: llm
+parameters:
+  context:
+    values: 
+      - You are an efficient and insightful assistant to a molecular biologist
+  temperature:
+    values:
+      - 0.0
+      - 5.0
+      - 10.0
+      - 20.0
+      - 50.0
+      - 100.0
+  model:
+    value: mixtral:instruct
+  max_tokens:
+    values:
+      - 1000
+  ind_start:
+    values:
+      - 0
+  ind_end:
+    values:
+      - 11
+  gene_sep:
+    values:
+      - ' '
+  input_sep:
+    values:
+      - ','
+  gene_column:
+    values:
+      - Genes
+  set_index:
+    values:
+      - GO
+  dataset_name:
+    values:
+      - toy_example_w_cont
+  input_file:
+    values:
+      - data/toy_example_w_contaminated.csv
+  seed:
+    values:
+      - 42
+  run_contaminated:
+    values:
+      - true
+  customized_prompt:
+    values:
+      - data/custom_prompt_1.txt
+
+
+
+    
