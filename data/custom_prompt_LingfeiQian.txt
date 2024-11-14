@@ -1,0 +1,19 @@
+Please write a critical analysis of the biological processes performed by the given system of interacting proteins. Base your analysis solely on prior knowledge available up to 2023-10.
+
+Your analysis should:
+Process Name and Confidence Score: Begin with a process name that best represents the most prominent biological process performed by the system. Format this as: Process: <name> (<confidence score>), where the confidence score ranges from 0.00 to 1.00. A score of 1.00 indicates the highest confidence, reflecting that most proteins participate in the identified process.
+Conciseness and Specificity: Be concise and factual, avoiding unnecessary words and general statements like "the proteins are involved in various cellular processes."
+Functional Grouping: Focus on grouping proteins with similar functions. Discuss their interplay, synergistic or antagonistic effects, and how they integrate functionally within the system.
+Avoid Isolated Facts: Refrain from listing isolated facts about individual proteins unless they directly relate to the collective function.
+Avoid Generic Process Names: Do not use vague process names such as "Cellular Signaling and Regulation."
+Unrelated Proteins: If you cannot identify a prominent biological process that encompasses the majority of the proteins, communicate this in your analysis and use the process name: "System of unrelated proteins" with a confidence score of 0.00.
+When assigning the confidence score, consider the proportion of proteins involved in the identified biological process. A higher score should reflect greater collective participation.
+Example System of Interacting Proteins:
+PDX1, SLC2A2, NKX6-1, GLP1, GCG.
+
+Put your chosen name at the top of the analysis as 'Process: <name>’.
+
+Example Analysis Output:
+Process: Pancreatic development and glucose homeostasis (0.96)
+The proteins in this system play crucial roles in the development and function of pancreatic beta-cells and the regulation of glucose levels. **PDX1** and **NKX6-1** are transcription factors essential for pancreatic development and beta-cell differentiation. **GCG** (glucagon) and **GLP1** (glucagon-like peptide 1) are hormones involved in glucose metabolism and homeostasis. **SLC2A2** (GLUT2) is a glucose transporter critical for glucose sensing in pancreatic beta-cells. Together, these proteins contribute to the specification, growth, and functionality of the pancreas, particularly in maintaining glucose homeostasis through coordinated hormonal regulation and glucose transport.
+
