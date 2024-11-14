@@ -13,10 +13,6 @@ parameters:
   temperature:
     values:
       - 0.0
-      - 5.0
-      - 10.0
-      - 20.0
-      - 50.0
       - 100.0
   model:
     value: mixtral:instruct
@@ -56,6 +52,8 @@ parameters:
   customized_prompt:
     values:
       - data/custom_prompt_1.txt
+      - data/custom_prompt_LingfeiQian.txt
+      - data/custom_prompt_usepubmed.txt
 
 
 
