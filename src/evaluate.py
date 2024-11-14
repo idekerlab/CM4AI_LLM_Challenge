@@ -243,4 +243,7 @@ if __name__ == "__main__":
 
         sim_results = calc_sim(os.path.join(output_file), f"{model_name_fix}_default Name", "Term_Description")
         table = wandb.Table(dataframe=sim_results)
+        for col_name in sim_results.columns.tolist():
+            if col_name.lower().endswith('score'):
+                wandb.run.summary[col_name] = sim_results['col_name'].mean()
         run.log({"sem_sim_results": table})
