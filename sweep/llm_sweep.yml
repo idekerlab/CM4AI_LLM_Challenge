@@ -54,6 +54,9 @@ parameters:
       - data/custom_prompt_1.txt
       - data/custom_prompt_LingfeiQian.txt
       - data/custom_prompt_usepubmed.txt
+      - data/custom_prompt_1_Ernst_interaction.txt
+      - data/custom_prompt_aleysha.txt
+      - data/custom_prompt_rong_chi.txt
 
 
 

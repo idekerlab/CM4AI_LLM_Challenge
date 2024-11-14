@@ -1,0 +1,25 @@
+Analyze the biological processes performed by this system of interacting proteins, using your training data for reference.
+
+1.	Start with a Critical Analysis:
+Describe the biological process that best represents the main function of this system. Focus on how these proteins work together, detailing any synergistic or antagonistic effects.
+Group proteins by their roles or interactions rather than describing them individually. Avoid general statements like “involved in various cellular processes.”
+Be concise and factual, using specific language to capture the system’s unique biological activity.
+2.	Select and Score the Process Name:
+Identify a concise, specific name for the main biological process, choosing a name that avoids generic terms (e.g., avoid "Cellular Signaling").
+Assign a confidence score between 0.00 and 1.00, where 1.00 reflects high confidence. Base the score on the proportion of proteins involved in the identified process (higher if most proteins are involved, lower if fewer are involved).
+If you cannot identify a unifying process, name it "System of unrelated proteins" with a confidence score of 0.00.
+3.	Format the Analysis Output:
+Write your analysis in a clear, structured format without unnecessary words. State the chosen process name at the top in the format: Process: <name> (<confidence_score>).
+Save the Output to a File:
+Example System and Analysis: For guidance, here’s an example system with an ideal analysis output:
+
+Example System: PDX1, SLC2A2, NKX6-1, GLP1, GCG
+
+Example Analysis Output:
+
+Process: Pancreatic development and glucose homeostasis (0.96)
+1.	PDX1 and NKX6-1 are transcription factors essential for pancreatic beta-cell development and function. PDX1 drives glucose uptake and insulin production, while NKX6-1 aids in beta-cell differentiation.
+2.	GCG and GLP1, respectively glucagon and glucagon-like peptide 1, regulate blood glucose levels. GCG increases glucose levels, while GLP1 enhances glucose-stimulated insulin secretion, maintaining homeostasis.
+3.	SLC2A2 (GLUT2) facilitates glucose transport in beta-cells, supporting glucose sensing and regulation in the pancreas.
+Together, these proteins support pancreatic development and glucose homeostasis, integrating glucose sensing and hormone regulation mechanisms crucial for balanced blood glucose levels.
+
